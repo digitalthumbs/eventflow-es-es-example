@@ -20,4 +20,17 @@ namespace SampleEventFlowApp.Command
 
         public int MagicNumber { get; }
     }
+
+    public class ExampleUpdateCommand : Command<ExampleAggregate, ExampleId>
+    {
+        public ExampleUpdateCommand(
+          ExampleId aggregateId,
+          int magicNumber)
+          : base(aggregateId)
+        {
+            MagicNumber = magicNumber;
+        }
+
+        public int MagicNumber { get; }
+    }
 }

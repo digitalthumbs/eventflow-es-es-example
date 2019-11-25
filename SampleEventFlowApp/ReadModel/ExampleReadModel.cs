@@ -13,10 +13,12 @@ namespace SampleEventFlowApp.ReadModel
     public class ExampleReadModel : IReadModel, IAmReadModelFor<ExampleAggregate, ExampleId, ExampleEvent>
     {
         public int MagicNumber { get; private set; }
+        public DateTimeOffset TimeStamp { get; private set; }
 
         public void Apply(IReadModelContext context, IDomainEvent<ExampleAggregate, ExampleId, ExampleEvent> domainEvent)
         {
             MagicNumber = domainEvent.AggregateEvent.MagicNumber;
+            TimeStamp = domainEvent.AggregateEvent.TimeStamp;
         }
     }
 }

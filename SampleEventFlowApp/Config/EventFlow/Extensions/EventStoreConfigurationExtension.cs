@@ -13,10 +13,10 @@ namespace SampleEventFlowApp.Config.EventFlow.Extensions
 {
     public static class EventStoreConfigurationExtension
     {
-        public static IEventFlowOptions ConfigureEventStorePersistence(this IEventFlowOptions options)
+        public static IEventFlowOptions ConfigureEventStorePersistence(this IEventFlowOptions options, string esServerUrl = null)
         {
 
-            string eventStoreUrl = Environment.GetEnvironmentVariable("EVENTSTOREURL");
+            string eventStoreUrl = esServerUrl ?? Environment.GetEnvironmentVariable("EVENTSTOREURL");
             string connectionString = $"ConnectTo={eventStoreUrl}; HeartBeatTimeout=500";
             Uri eventStoreUri = GetUriFromConnectionString(connectionString);
 

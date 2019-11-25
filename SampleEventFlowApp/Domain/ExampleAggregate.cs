@@ -22,7 +22,15 @@ namespace SampleEventFlowApp.Domain
             if (_magicNumber.HasValue)
                 throw DomainError.With("Magic number already set");
 
-            Emit(new ExampleEvent(magicNumber));
+            Emit(new ExampleEvent(magicNumber, DateTimeOffset.UtcNow));
+        }
+
+        public void UpdateMagicNumber(int magicNumber)
+        {
+            if (!_magicNumber.HasValue)
+                throw DomainError.With("Magic never wasn't already set");
+
+            Emit(new ExampleEvent(magicNumber, DateTimeOffset.UtcNow));
         }
 
         // We apply the event as part of the event sourcing system. EventFlow

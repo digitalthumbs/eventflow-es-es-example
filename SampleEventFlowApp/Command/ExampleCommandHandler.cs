@@ -19,4 +19,15 @@ namespace SampleEventFlowApp.Command
             return Task.FromResult(0);
         }
     }
+
+
+    public class ExampleUpdateCommandHandler
+      : CommandHandler<ExampleAggregate, ExampleId, ExampleUpdateCommand>
+    {
+        public override Task ExecuteAsync(ExampleAggregate aggregate, ExampleUpdateCommand command, CancellationToken cancellationToken)
+        {
+            aggregate.UpdateMagicNumber(command.MagicNumber);
+            return Task.FromResult(0);
+        }
+    }
 }

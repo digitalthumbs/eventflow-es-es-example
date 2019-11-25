@@ -44,9 +44,9 @@ namespace TestSampleEventFlowApp
             // AddDefaults(Assembly) instead.
             using (var resolver = EventFlowOptions.New
               .AddEvents(typeof(ExampleEvent))
-              .AddCommands(typeof(ExampleCommand))
-              .AddCommandHandlers(typeof(ExampleCommandHandler))
-              .ConfigureEventStorePersistence()
+              .AddCommands(typeof(ExampleCommand), typeof(ExampleUpdateCommand))
+              .AddCommandHandlers(typeof(ExampleCommandHandler), typeof(ExampleUpdateCommandHandler))
+              .ConfigureEventStorePersistence("tcp://localhost:1113")
               .ConfigureElasticsearch(() => elasticClient)
               .UseElasticsearchReadModel<ExampleReadModel>()
               .UseInMemoryReadStoreFor<ExampleReadModel>()
@@ -66,6 +66,12 @@ namespace TestSampleEventFlowApp
                       new ExampleCommand(exampleId, rndMagicNum), CancellationToken.None)
                       .ConfigureAwait(false);
 
+
+                    await commandBus.PublishAsync(
+                     new ExampleUpdateCommand(exampleId, 1), CancellationToken.None)
+                     .ConfigureAwait(false);
+
+
                     // Resolve the query handler and use the built-in query for fetching
                     // read models by identity to get our read model representing the
                     // state of our aggregate root
@@ -75,7 +81,7 @@ namespace TestSampleEventFlowApp
                       .ConfigureAwait(false);
 
                     // Verify that the read model has the expected magic number
-                    exampleReadModel.MagicNumber.Should().Be(rndMagicNum);
+                    exampleReadModel.MagicNumber.Should().Be(1);
 
                     Output.WriteLine(exampleId.Value);
                 }
