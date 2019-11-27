@@ -9,7 +9,6 @@ using SampleEventFlowApp.Config.EventFlow.Extensions;
 using SampleEventFlowApp.Domain;
 using SampleEventFlowApp.Domain.Entities;
 using SampleEventFlowApp.Domain.Events;
-using SampleEventFlowApp.Query;
 using SampleEventFlowApp.ReadModel;
 using System;
 using System.Collections.Generic;
@@ -55,6 +54,15 @@ namespace TestSampleEventFlowApp
               .CreateResolver())
             {
 
+
+                var id = "example-f66477e4-06f2-4002-84e0-c67f7ab3371c";
+                var queryProcessor = resolver.Resolve<IQueryProcessor>();
+                var exampleReadModel = await queryProcessor.ProcessAsync(
+                  new ReadModelByIdQuery<ExampleReadModel>(id), CancellationToken.None)
+                  .ConfigureAwait(false);
+
+
+
                 for (int i = 0; i < 10; i++)
                 {
                     var rndMagicNum = new Random().Next();
@@ -77,10 +85,10 @@ namespace TestSampleEventFlowApp
                     // Resolve the query handler and use the built-in query for fetching
                     // read models by identity to get our read model representing the
                     // state of our aggregate root
-                    var queryProcessor = resolver.Resolve<IQueryProcessor>();
-                    var exampleReadModel = await queryProcessor.ProcessAsync(
-                      new ReadModelByIdQuery<ExampleReadModel>(exampleId), CancellationToken.None)
-                      .ConfigureAwait(false);
+                    //var queryProcessor = resolver.Resolve<IQueryProcessor>();
+                    //var exampleReadModel = await queryProcessor.ProcessAsync(
+                    //  new ReadModelByIdQuery<ExampleReadModel>(exampleId), CancellationToken.None)
+                    //   .ConfigureAwait(false);
 
                     // Verify that the read model has the expected magic number
                     exampleReadModel.MagicNumber.Should().Be(1);
