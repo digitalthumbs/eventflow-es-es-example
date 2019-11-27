@@ -6,8 +6,10 @@ using FluentAssertions;
 using Nest;
 using SampleEventFlowApp.Command;
 using SampleEventFlowApp.Config.EventFlow.Extensions;
+using SampleEventFlowApp.Domain;
 using SampleEventFlowApp.Domain.Entities;
 using SampleEventFlowApp.Domain.Events;
+using SampleEventFlowApp.Query;
 using SampleEventFlowApp.ReadModel;
 using System;
 using System.Collections.Generic;
@@ -49,7 +51,7 @@ namespace TestSampleEventFlowApp
               .ConfigureEventStorePersistence("tcp://localhost:1113")
               .ConfigureElasticsearch(() => elasticClient)
               .UseElasticsearchReadModel<ExampleReadModel>()
-              .UseInMemoryReadStoreFor<ExampleReadModel>()
+              //.UseInMemoryReadStoreFor<ExampleReadModel>()
               .CreateResolver())
             {
 

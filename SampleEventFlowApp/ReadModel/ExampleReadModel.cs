@@ -12,8 +12,8 @@ namespace SampleEventFlowApp.ReadModel
     // Read model for our aggregate
     public class ExampleReadModel : IReadModel, IAmReadModelFor<ExampleAggregate, ExampleId, ExampleEvent>
     {
-        public int MagicNumber { get; private set; }
-        public DateTimeOffset TimeStamp { get; private set; }
+        public int MagicNumber { get; set; }
+        public DateTimeOffset TimeStamp { get; set; }
 
         public void Apply(IReadModelContext context, IDomainEvent<ExampleAggregate, ExampleId, ExampleEvent> domainEvent)
         {
